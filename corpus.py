@@ -107,7 +107,11 @@ class BaleenCorpusReader(CategorizedCorpusReader, CorpusReader):
 
         if categories is not None:
             return self.fileids(categories)
-        return fileids
+
+        if fileids is not None:
+            return fileids
+
+        return self.fileids()
 
     def docs(self, fileids=None, categories=None):
         """

@@ -16,7 +16,7 @@ def documents(corpus, fileids=None, categories=None, norm=False):
     """
     Generator yields tokenized documents in the corpus.
     """
-    for doc in corpus.docs(fileids=None, categories=None):
+    for doc in corpus.docs(fileids=fileids, categories=categories):
         doc = [
             token
             for paragraph in doc
@@ -34,7 +34,7 @@ def utterances(corpus, fileids=None, categories=None, norm=False):
     """
     Generator yeilds tokenized sentences in the corpus.
     """
-    for sent in corpus.sents(fileids=None, categories=None):
+    for sent in corpus.sents(fileids=fileids, categories=categories):
         if norm:
             yield normalize(sent)
         else:
@@ -45,9 +45,8 @@ def labels(corpus, fileids=None, categories=None):
     """
     Generator yields labels for the given subset of docs.
     """
-    fileids = corpus._resolve(fileids, categories)
-    for cat in corpus.categories(fileids=fileids):
-        yield cat
+    for fileid in corpus._resolve(fileids, categories):
+        yield corpus.categories(fileids=[fileid])[0]
 
 
 ##########################################################################
